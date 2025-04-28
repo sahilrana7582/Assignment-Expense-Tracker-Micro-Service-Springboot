@@ -5,6 +5,7 @@ import com.example.user_service.dto.requestDto.UpdateUserRequest;
 import com.example.user_service.dto.responseDto.DeleteUserResponse;
 import com.example.user_service.dto.responseDto.UserResponse;
 import com.example.user_service.exception.ResourceNotFound;
+import com.example.user_service.kafka.KafkaProducer;
 import com.example.user_service.mapper.UserMapper;
 import com.example.user_service.model.User;
 import com.example.user_service.repository.UserRepository;
@@ -24,13 +25,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     public UserResponse createUser(CreateUserRequest request) {
 
         User user = userMapper.toEntity(request);
         User savedUser = userRepository.save(user);
-        return userMapper.toResponse(savedUser);
+
+        UserResponse resp = userMapper.toResponse(savedUser);
+        kafkaProducer.publishUserCreatedEvent(savedUser);
+        return resp;
 
     }
 

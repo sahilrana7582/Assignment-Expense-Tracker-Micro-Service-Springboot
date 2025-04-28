@@ -1,7 +1,7 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.example.expense-tracker</groupId>
-	<artifactId>expense-manager-microservices</artifactId>
+	<groupId>com.example.expense_tracker</groupId>
+	<artifactId>expense_manager_microservices</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
@@ -10,7 +10,8 @@
 		<module>config-server</module>
 <!--		<module>eureka-service</module>-->
 		<module>user-service</module>
-<!--		<module>ticket-service</module>-->
+		<module>common-models</module>
+        <!--		<module>ticket-service</module>-->
 <!--		<module>seat-service</module>-->
 
 	</modules>
