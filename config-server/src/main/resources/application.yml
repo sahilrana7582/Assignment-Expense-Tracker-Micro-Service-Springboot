@@ -1,0 +1,13 @@
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/sahilrana7582/config-repo
+          clone-on-start: true
+          searchPaths: expense-tracker-microservice-application
+  application:
+    name: config-server

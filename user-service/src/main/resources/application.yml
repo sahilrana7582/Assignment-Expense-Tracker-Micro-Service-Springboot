@@ -1,0 +1,15 @@
+spring:
+    application:
+        name: user-service
+    port: 8081
+
+    config:
+      import: configserver:http://localhost:8888
+
+    cloud:
+      config:
+        uri: http://localhost:8888
+        label: main
+
+
+
