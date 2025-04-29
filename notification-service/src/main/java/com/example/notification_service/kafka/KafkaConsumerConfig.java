@@ -26,6 +26,9 @@ public class KafkaConsumerConfig {
     private String bootstrapServers;
 
 
+    //Configuration
+
+
     @Bean
     public ConsumerFactory<String, UserCreatedEvent> createdEventConsumerFactory(){
         Map<String, Object> config = new HashMap<>();
@@ -35,7 +38,6 @@ public class KafkaConsumerConfig {
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(UserCreatedEvent.class));
     }
-
 
     @Bean(name = "userCreatedEventKafkaListenerContainerFactory")
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, UserCreatedEvent>> userCreatedEventKafkaListenerContainerFactory(){
