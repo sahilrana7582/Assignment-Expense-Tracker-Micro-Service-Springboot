@@ -1,4 +1,4 @@
-package com.example.account_service.repository;
+package com.example.account_service.service;
 
 
 import com.example.account_service.dto.requestDto.*;
@@ -8,15 +8,20 @@ import com.example.account_service.exception.ResourceNotFound;
 import com.example.account_service.mapper.AccountMapper;
 import com.example.account_service.model.Account;
 import com.example.account_service.repository.AccountRepository;
-import com.example.account_service.service.AccountService;
+import com.example.expense_tracker.common.UserCreatedEvent;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -25,6 +30,22 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     private final AccountMapper accountMapper;
+
+
+    @KafkaListener(topics = "${kafka.topic.name}", groupId = "${kafka.topic.group-id}", containerFactory = "userCreatedEventKafkaListenerContainerFactory")
+    public void consumeUserCreatedEvent(ConsumerRecord<String, UserCreatedEvent> record) {
+        UserCreatedEvent event = record.value();
+        Account account = Account.builder()
+                .accountId(UUID.randomUUID().toString())
+                .userId(event.getUserId())
+                .name("Default Account")
+                .type(AccountType.DUMMY)
+                .balance(BigDecimal.valueOf(0.0))
+                .currency("INR")
+                .isActive(true)
+                .build();
+        accountRepository.save(account);
+    }
 
     @Override
     public AccountResponseDto createAccount(AccountRequestDto dto) {
