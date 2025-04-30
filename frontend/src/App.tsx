@@ -8,6 +8,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import Layout from './components/Layout';
+import Home from './pages/Home';
 
 const theme = createTheme({
   palette: {
@@ -25,9 +27,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div>
-        <h1>Expense Tracker</h1>
-      </div>
+    
+    <Layout>
+      <Home/>
+    </Layout>
     </ThemeProvider>
   );
 }

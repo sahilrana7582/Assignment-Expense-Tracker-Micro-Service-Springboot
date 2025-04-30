@@ -12,11 +12,9 @@ const Layout = ({ children }: LayoutProps) => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <Container maxWidth="lg">
-        <Box py={4}>
+        <Box>
           {children}
         </Box>
-      </Container>
     </motion.div>
   );
 };
