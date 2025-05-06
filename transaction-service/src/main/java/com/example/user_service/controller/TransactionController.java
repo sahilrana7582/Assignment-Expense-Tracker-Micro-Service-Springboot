@@ -92,7 +92,7 @@ public class TransactionController {
 
     @GetMapping("/stats/status/{userId}")
     public ResponseEntity<Map<String, Object>> getTransactionStatsByStatus(
-            @PathVariable String userId) {
+            @PathVariable("userId") String userId) {
         log.info("Request to get transaction stats by status for user ID: {}", userId);
         Map<String, Object> stats = transactionService.getTransactionStatsByStatus(userId);
         return ResponseEntity.ok(stats);

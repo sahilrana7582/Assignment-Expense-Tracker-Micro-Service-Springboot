@@ -8,29 +8,100 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import Layout from './components/Layout';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Transaction from './pages/Transaction';
+import { Box } from '@mui/material';
 
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#1976d2',
+      main: '#3a7bd5',
     },
     secondary: {
-      main: '#dc004e',
+      main: '#00d2ff',
     },
   },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h1: {
+      fontWeight: 700,
+    },
+    h2: {
+      fontWeight: 700,
+    },
+    h3: {
+      fontWeight: 600,
+    },
+    h4: {
+      fontWeight: 600,
+    },
+    h5: {
+      fontWeight: 500,
+    },
+    h6: {
+      fontWeight: 500,
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          margin: 0,
+          padding: 0,
+          boxSizing: 'border-box',
+          overflowX: 'hidden'
+        },
+        html: {
+          margin: 0,
+          padding: 0,
+          boxSizing: 'border-box'
+        },
+        '#root': {
+          width: '100vw',
+          margin: 0,
+          padding: 0,
+          overflow: 'hidden'
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          textTransform: 'none',
+          fontWeight: 500,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+        },
+      },
+    },
+  }
 });
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-    
-    <Layout>
-      <Home/>
-    </Layout>
+      <Router>
+        <Box sx={{ 
+          width: '100vw', 
+          margin: 0, 
+          padding: 0,
+          overflow: 'hidden'
+        }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/transaction" element={<Transaction />} />
+          </Routes>
+        </Box>
+      </Router>
     </ThemeProvider>
   );
 }

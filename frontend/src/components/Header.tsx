@@ -1,12 +1,20 @@
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, useTheme, useMediaQuery } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Dashboard, AccountCircle, Menu } from '@mui/icons-material';
+import { Dashboard, AccountCircle, Menu, AddCircle } from '@mui/icons-material';
 import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Header = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { name: 'Dashboard', path: '/' },
+    { name: 'Transactions', path: '/transaction' },
+    { name: 'Reports', path: '/reports' },
+    { name: 'Settings', path: '/settings' }
+  ];
 
   return (
     <AppBar position="static" elevation={0} sx={{ 
@@ -20,13 +28,19 @@ const Header = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Typography variant="h6" component="div" sx={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            gap: 1,
-            color: '#3a7bd5',
-            fontWeight: 700
-          }}>
+          <Typography 
+            variant="h6" 
+            component={RouterLink} 
+            to="/"
+            sx={{ 
+              display: 'flex', 
+              alignItems: 'center',
+              gap: 1,
+              color: '#3a7bd5',
+              fontWeight: 700,
+              textDecoration: 'none'
+            }}
+          >
             <Dashboard /> ExpenseTracker
           </Typography>
         </motion.div>
@@ -42,23 +56,26 @@ const Header = () => {
           </IconButton>
         ) : (
           <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-            {['Dashboard', 'Transactions', 'Reports', 'Settings'].map((item, index) => (
+            {navItems.map((item, index) => (
               <motion.div
-                key={item}
+                key={item.name}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -3 }}
               >
                 <Typography 
+                  component={RouterLink}
+                  to={item.path}
                   sx={{ 
                     color: 'text.secondary',
                     fontWeight: 500,
                     cursor: 'pointer',
+                    textDecoration: 'none',
                     '&:hover': { color: '#3a7bd5' }
                   }}
                 >
-                  {item}
+                  {item.name}
                 </Typography>
               </motion.div>
             ))}
@@ -69,7 +86,9 @@ const Header = () => {
             >
               <Button 
                 variant="contained" 
-                startIcon={<AccountCircle />}
+                component={RouterLink}
+                to="/transaction"
+                startIcon={<AddCircle />}
                 sx={{ 
                   background: 'linear-gradient(45deg, #3a7bd5 0%, #00d2ff 100%)',
                   borderRadius: '20px',
@@ -78,7 +97,7 @@ const Header = () => {
                   boxShadow: '0 4px 10px rgba(0, 210, 255, 0.3)',
                 }}
               >
-                Sign In
+                New Transaction
               </Button>
             </motion.div>
           </Box>

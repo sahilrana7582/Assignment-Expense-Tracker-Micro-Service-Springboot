@@ -35,6 +35,7 @@ public class AccountController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<AccountResponseDto>> getAccountsByUserId(@PathVariable String userId) {
+
         List<AccountResponseDto> accounts = accountService.getAllAccountsByUserId(userId);
         return ResponseEntity.ok(accounts);
     }

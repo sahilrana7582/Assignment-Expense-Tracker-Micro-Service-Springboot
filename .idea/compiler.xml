@@ -21,7 +21,7 @@
       <module name="account-service" options="" />
       <module name="config-server" options="" />
       <module name="notification-service" options="" />
-      <module name="transaction-service" options="" />
+      <module name="transaction-service" options="-parameters" />
       <module name="user-service" options="" />
     </option>
   </component>
