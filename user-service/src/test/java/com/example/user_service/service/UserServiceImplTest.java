@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
@@ -30,13 +31,9 @@ class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
     void testCreateUser_success() {
+        // Arrange
         CreateUserRequest request = new CreateUserRequest();
         request.setUserId("testUserId");
         request.setEmail("testEmail");
@@ -56,14 +53,16 @@ class UserServiceImplTest {
         response.setFirstName("testResponseFirstName");
         response.setLastName("testResponseLastName");
 
+        // Act
         when(userMapper.toEntity(request)).thenReturn(userEntity);
         when(userRepository.save(userEntity)).thenReturn(userEntity);
         when(userMapper.toResponse(userEntity)).thenReturn(response);
 
         UserResponse result = userService.createUser(request);
 
-        assertEquals(response, result);
+        // Assert
         assertNotNull(result);
+        assertEquals(response, result);
         assertEquals(1L, result.getId());
         assertEquals("testResponseUserId", result.getUserId());
         assertEquals("testResponseEmail", result.getEmail());
@@ -72,6 +71,5 @@ class UserServiceImplTest {
 
         verify(userMapper).toEntity(request);
         verify(userRepository).save(userEntity);
-
     }
 }
